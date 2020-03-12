@@ -24,8 +24,8 @@ namespace PlannerApi.Controllers
         /// </summary>
         private static readonly string[][] AllKeywords = new string[][]
         {
-            new string[]{"beaches","waterfalls","climbing","pools","market_places","bycicle_rental"},
-            new string[]{"ferris_wheels","parks","waterfalls","climbing","market_places","tourist_object"},
+            new string[]{"beaches","waterfalls","climbing","pools", "marketplaces", "bycicle_rental"},
+            new string[]{"ferris_wheels","parks","waterfalls","climbing", "marketplaces", "tourist_object"},
             new string[]{"museums","cafes", "theatres_and_entertainments", "museums_of_science_and_technology"},
             new string[]{"skiing","other_winter_sports","hot_springs","cafes","museums"},
             new string[]{"cafes","bars","cinemas","museums"},
@@ -49,8 +49,8 @@ namespace PlannerApi.Controllers
 
         private static readonly string[][] ColdKeywords = new string[][]
 {
-            new string[]{"market_places","towers","museums","gardens_and_parks"},
-            new string[]{"museums","market_places","gardens_and_parks","cinemas"},
+            new string[]{ "marketplaces", "towers","museums","gardens_and_parks"},
+            new string[]{"museums", "marketplaces", "gardens_and_parks","cinemas"},
             new string[]{ "cafes","cinemas","theatres_and_entertainments","museums"}
 };
         private static readonly string[] ColdRecommendations = new[]
