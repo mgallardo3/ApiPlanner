@@ -24,13 +24,13 @@ namespace PlannerApi.Controllers
         /// </summary>
         private static readonly string[][] AllKeywords = new string[][]
         {
-            new string[]{"cinemas,indoor,parks"},
-            new string[]{"cinemas,indoor,parks"},
-            new string[]{"cinemas,indoor,parks"},
-            new string[]{"cinemas,indoor,parks"},
-            new string[]{"cinemas,indoor,parks"},
-            new string[]{"cinemas,indoor,parks"},
-            new string[]{"cinemas,indoor,parks"}
+            new string[]{"beaches","waterfalls","climbing","pools","market_places","bycicle_rental"},
+            new string[]{"ferris_wheels","parks","waterfalls","climbing","market_places","tourist_object"},
+            new string[]{"museums","cafes", "theatres_and_entertainments", "museums_of_science_and_technology"},
+            new string[]{"skiing","other_winter_sports","hot_springs","cafes","museums"},
+            new string[]{"cafes","bars","cinemas","museums"},
+            new string[]{"bars","cafes","cinemas","museums"},
+            new string[]{"museums_of_science_and_technology", "theatres_and_entertainments","cinemas","cafes"}
         };
 
         /// <summary>
@@ -40,32 +40,24 @@ namespace PlannerApi.Controllers
         {
             "Nice weather sky looks clear, here are some nice suggestions for you to do!",
             "Is cloudy but nice and warm out there, I found some places you might enjoy!",
-            "This are all the recommendations",
-            "This are all the recommendations",
-            "This are all the recommendations",
-            "This are all the recommendations",
-            "This are all the recommendations"
+            "Its a little drizzle out there, perhaps you would like to try some of the following activities:",
+            "Wow is snowing!!, maybe some of these would be a nice thing to do today!",
+            "Gosh there is a thurderstorm out there, you sure you want to go out? here are some suggestions!",
+            "There is a tornato near by, stay safe!",
+            "Rainy day, not too bad weather, here are some suggestions for you to do!"
         };
 
         private static readonly string[][] ColdKeywords = new string[][]
 {
-            new string[]{"cinemas,indoor,parks"},
-            new string[]{"cinemas,indoor,parks"},
-            new string[]{"cinemas,indoor,parks"},
-            new string[]{"cinemas,indoor,parks"},
-            new string[]{"cinemas,indoor,parks"},
-            new string[]{"cinemas,indoor,parks"},
-            new string[]{"cinemas,indoor,parks"}
+            new string[]{"market_places","towers","museums","gardens_and_parks"},
+            new string[]{"museums","market_places","gardens_and_parks","cinemas"},
+            new string[]{ "cafes","cinemas","theatres_and_entertainments","museums"}
 };
         private static readonly string[] ColdRecommendations = new[]
 {
             "Sky looks clear but kind off cold out there, I found some good places for you to hangout!",
             "Is cloudy and cold out there, I found some places you might enjoy!",
-            "This are all the recommendations",
-            "This are all the recommendations",
-            "This are all the recommendations",
-            "This are all the recommendations",
-            "This are all the recommendations"
+            "Its cold and drizzle out there, perhaps you would like to do some of these:"
         };
 
         private readonly ILogger<SuggestionsController> _logger;
@@ -88,23 +80,16 @@ namespace PlannerApi.Controllers
             .ToArray();
         }
 
-        // GET: api/id/
+        // GET: api/id/weather
         [HttpGet("id={id}&weather={weather}")]
         public Suggestions Get(string id, int weather)
         {
+            //if valid inputs, proceed with the request
             if (AllIds.Contains(id))
             {
                 int Index = Array.IndexOf(AllIds, id);
-                if (weather > 68)
-                {
-                    return new Suggestions
-                    {
-                        Id = AllIds[Index],
-                        Keywords = AllKeywords[Index],
-                        Recommendation = AllRecommendations[Index]
-                    };
-                }
-                else
+                //Special suggestions for cold weather
+                if (weather< 68 &(id == "Clear" || id == "Clouds" || id == "Drizzle"))
                 {
                     return new Suggestions
                     {
@@ -113,9 +98,19 @@ namespace PlannerApi.Controllers
                         Recommendation = ColdRecommendations[Index]
                     };
                 }
+                else
+                {
+                    return new Suggestions
+                    {
+                        Id = AllIds[Index],
+                        Keywords = AllKeywords[Index],
+                        Recommendation = AllRecommendations[Index]
+                    };
+                }
             }
             else
             {
+                //return a null result for invalid inputs
                 return new Suggestions { };
             }
         }
